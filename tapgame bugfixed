@@ -1,0 +1,424 @@
+import java.util.Scanner;
+public class TapGame {
+
+    // Defining variables that won't reset every round
+
+    long points = 0;
+    boolean autoTap = false;
+    boolean cooldown = false;
+    boolean fancyTappyCooldown = false;
+    boolean emotionalSupport1 = false;
+    int tapcount1 = 0;
+    int tapcount2 = 0;
+    int a = 1;
+    int priceA = 100;
+    int priceC = 50;
+    long priceE = 100000;
+    int priceG = 10000;
+    int smallNet = 0;
+    int tappyCount = 0;
+    int fancyTappyCount = 0;
+    int furryCoat = 0;
+    int aquarium = 0;
+    int highQualityNet = 0;
+    double tappyModifier = 1.0;
+    double tappyRarity = 1.0;
+    boolean tappyCatcher = false;
+
+    public static void main(String[] args) {
+        new TapGame().run();
+    }
+
+    Scanner uI = new Scanner(System.in);
+
+    public int randomInstance() {
+        int tappyType = 0;
+        int random = (int) (Math.random() * (10000*tappyRarity) + 1);
+        if (random < 100) {
+            tappyType = 1;
+            return tappyType;
+        } else if (random >= 150 && random < 200) {
+            tappyType = 2;
+            return tappyType;
+        } else {
+            return tappyType;
+        }
+
+    }
+
+    public void spacer() {
+        System.out.println("=============================================");
+    }
+
+    public String reward() {
+        int item = (int) (Math.random() * 3 + 1);
+        String stuff = "";
+        if (item == 1) {
+            stuff = "Furry Coat";
+            furryCoat += 1;
+        } else if (item == 2) {
+            stuff = "Aquarium";
+            aquarium += 1;
+        } else if (item == 3) {
+            stuff = "High Quality Net";
+            highQualityNet += 1;
+        }
+        return stuff;
+    }
+
+    public int tappyTimes() {
+        int random = (int) (Math.random() * 10 + 1);
+        return random;
+    }
+
+    public int fancyTappyTimes() {
+        int random = (int) (Math.random() * 30 + 1);
+        return random;
+    }
+
+    // Regular Tappy function
+
+    public void tappy() {
+        int tappyRequest = tappyTimes();
+        spacer();
+        if (tappyCatcher == true) {
+            if (smallNet > 0) {
+                smallNet -= 1;
+                tappyCount += 1;
+                System.out.println(" The Tappycatcher 4000 catches the Tappy for you.");
+            } else {
+                System.out.println("You've encountered a Tappy!");
+                System.out.println("Complete the Tappy's request to gain a bonus.");
+                System.out.println("Tappy: Tap " + tappyRequest + " times!");
+            }
+        } else {
+            System.out.println("You've encountered a Tappy!");
+            System.out.println("Complete the Tappy's request to gain a bonus.");
+            System.out.println("Tappy: Tap " + tappyRequest + " times!");
+        }
+
+        String answer = uI.next();
+
+        if (answer.toLowerCase().equals("catch")) {
+            if (smallNet > 0) {
+                System.out.println("You throw the net over the Tappy and take it with you.");
+                smallNet -= 1;
+                tappyCount += 1;
+            } else {
+                System.out.println("You have nothing to catch it with!");
+                System.out.println("The Tappy was spooked and ran away...");
+                spacer();
+            }
+        } else if (answer.length() == tappyRequest) {
+            System.out.println("Tappy: Thanks a bunch!");
+            System.out.println("The Tappy gives you a lot of points!");
+            System.out.println("=============================================");
+            points += 1000;
+        } else if (answer.length() != tappyRequest) {
+            System.out.println("You made the Tappy sad...");
+            System.out.println("=============================================");
+        } else {
+            System.out.println("Something fubar with Tappy.");
+        }
+    }
+
+    // Fancy Tappy function
+
+    public void fancyTappy() {
+        int fancyTappyRequest = fancyTappyTimes();
+        spacer();
+        System.out.println("You've encountered a Fancy Tappy!");
+        System.out.println("Complete the Tappy's request to gain a bonus.");
+        System.out.println("Tappy: Tap " + fancyTappyRequest + " times!");
+        String answer = uI.next();
+        if (answer.toLowerCase().equals("catch")) {
+            if (highQualityNet > 0) {
+                System.out.println("You throw the net over the Tappy and take it with you.");
+                spacer();
+                highQualityNet -= 1;
+                fancyTappyCount += 1;
+            } else {
+                System.out.println("You have nothing to catch it with!");
+                System.out.println("The Tappy was spooked and ran away...");
+                spacer();
+            }
+        } else if (answer.length() == fancyTappyRequest) {
+            System.out.println("Tappy: Thanks a bunch!");
+            System.out.print("The Tappy gives you an item: " + reward() + " !");
+            points *= 2.5;
+        } else if (answer.length() != fancyTappyRequest) {
+            System.out.println("You made the Tappy sad...");
+            spacer();
+        } else {
+            System.out.println("Something fubar with Tappy.");
+        }
+    }
+
+    public void store() {
+        spacer();
+        System.out.println("Tap what you'd like to purchase.");
+        System.out.println("A: Double Tap: " + priceA + " points.");
+        if (autoTap) {
+            System.out.println("B : SOLD OUT");
+        } else {
+            System.out.println("B: Autotap: 250 points.");
+        }
+            System.out.println("C: Emotional Support Upgrade: " + priceC + " points.");
+            System.out.println("D: Small Net: 1500 points.");
+            if (tappyCount > 0) {
+                System.out.println("E: More Tappies: " + priceE + " points.");
+                boolean purchaseRarity = true;
+                if (tappyCatcher == false) {
+                    System.out.println("F: Tappycatcher 4000: 75000 points.");
+                }
+                System.out.println("G: Milkmachine Upgrade: " + priceG + " points");
+            }
+            System.out.println("Z: Exit Store...");
+            spacer();
+            String options = uI.next();
+            if (options.toLowerCase().equals("a")) {
+                if (points >= priceA) {
+                    points -= priceA;
+                    priceA = priceA * 10;
+                    a *= 2;
+                    System.out.println("You've purchased Double Tap! Your taps are twice as powerful now!");
+                    spacer();
+
+                } else {
+                    System.out.println("You don't have enough points to purchase that!");
+                    System.out.println("Exiting store...");
+                    spacer();
+                }
+            } else if (options.toLowerCase().equals("z")) {
+                System.out.println("Exiting store...");
+                spacer();
+            } else if (options.toLowerCase().equals("b")) {
+                if (points >= 250) {
+                    System.out.println("You've purchased Autotap! The system will tap a number of times for you when you type 'Autotap'.");
+                    System.out.println("Autotap has a cooldown of 200 taps.");
+                    spacer();
+                    points -= 250;
+                    autoTap = true;
+                } else {
+                    System.out.println("You don't have enough points to purchase that!");
+                    System.out.println("Exiting store...");
+                    spacer();
+                }
+            } else if (options.toLowerCase().equals("c")) {
+                if (points >= priceC) {
+                    System.out.println("You've purchased Emotion Support Upgrade! Your emotions will be supported better.");
+                    spacer();
+                    priceC *= 1000;
+                    emotionalSupport1 = true;
+                } else {
+                    System.out.println("You don't have enough points to purchase that!");
+                    System.out.println("Exiting store...");
+                    spacer();
+                }
+            } else if (options.toLowerCase().equals("d")) {
+                if (points >= 1500) {
+                    System.out.println("You have purchased a small net.");
+                    spacer();
+                    smallNet += 1;
+                    points -= 1500;
+                } else {
+                    System.out.println("You don't have enough points to purchase that!");
+                    System.out.println("Exiting store...");
+                    spacer();
+                }
+            } else if (options.toLowerCase().equals("e")) {
+                if (points >= priceE) {
+                    System.out.println("You've purchased More Tappies! Tappies will appear more often now.");
+                    tappyRarity *= 0.9;
+                    priceE *= 100000;
+                } else {
+                    System.out.println("You don't have enough points to purchase that!");
+                    System.out.println("Exiting store...");
+                }
+            } else if (options.toLowerCase().equals("f")) {
+                if (points >= 75000) {
+                    System.out.println("You've purchased Tappycatcher 4000! Tappies will automatically be caught if you have small nets.");
+                    tappyCatcher = true;
+                }
+            } else if (options.toLowerCase().equals("g")) {
+                if (points > priceG) {
+                    System.out.println("You have purchased Milk Machine Upgrade! Your Tappies will be milked for additional points");
+                    points -= priceG;
+                    priceG *= 1.5;
+                    tappyModifier *= 1.5;
+                } else {
+                    System.out.println("You don't have enough points to purchase that!");
+                    System.out.println("Exiting store...");
+                }
+            } else {
+                System.out.println("That's not a viable option, exiting store...");
+                spacer();
+            }
+        }
+
+        public void inventory() {
+            spacer();
+            System.out.println("Your inventory is:");
+            if (smallNet > 0) {
+                System.out.println(tappyCount + " Tappies");
+            }
+            if (fancyTappyCount > 0) {
+                System.out.println(fancyTappyCount + "Fancy Tappies");
+            }
+            if (highQualityNet > 0) {
+                System.out.println(highQualityNet + " high quality nets");
+            }
+            if (tappyCount > 0) {
+                System.out.println(smallNet + " small nets");
+            }
+            if  (furryCoat > 0) {
+                System.out.println(furryCoat + " furry coats");
+            }
+            if (aquarium > 0) {
+                System.out.println(aquarium + " aquaria");
+            }
+            spacer();
+
+        }
+
+        public void statistics() {
+            spacer();
+            System.out.println("These are your statistics:");
+            System.out.println("Each tap counts as " + a + " taps.");
+            if (tappyCount > 0) {
+                System.out.println("Your Tappies are milked for " + tappyModifier * 100 + "% points.");
+            }
+            spacer();
+        }
+
+        public void glossary() {
+            // Tappy Array with information about Tappies goes here
+        }
+
+
+        public void run () {
+
+            // This is TapGame
+
+            while (true) {
+
+                String input = uI.next();
+
+                // Checking for a random event
+
+                if (randomInstance() == 1) {
+                    tappy();
+                } else if (randomInstance() == 2) {
+                    fancyTappy();
+
+                    // Updating cooldowns if necessary
+
+                } else if (tapcount1 == 200 && cooldown == true) {
+                    System.out.println("Autotap has recharged! Type 'Autotap' to activate it.");
+                    tapcount1 = 0;
+                    cooldown = false;
+                } else if (tapcount2 == 100 && fancyTappyCooldown == true) {
+                    System.out.println("Your Fancy Tappies can be squeezed again! Type 'Squeeze' to squeeze them.");
+                    fancyTappyCooldown = false;
+
+                    // Checking Autotap cooldown command
+
+                } else if (input.toLowerCase().equals("cooldown") && autoTap) {
+                    System.out.println("You need to tap " + (200 - tapcount1) + " time before you can use Autotap.");
+                    // Checking for main commands
+
+                } else if (input.toLowerCase().equals("store")) {
+                    store();
+                } else if (input.toLowerCase().equals("inventory")) {
+                    inventory();
+                } else if (input.toLowerCase().equals("stats") || input.toLowerCase().equals("statistics")) {
+                    statistics();
+
+                    // Checking for Autotap
+
+                } else if (input.toLowerCase().equals("autotap") && autoTap && !cooldown) {
+                    for (int i = 0; i < (Math.random() * 150 + 50); i++) {
+                        if (i % 8 == 0) {
+                            System.out.println("*tap* ");
+                        } else {
+                            System.out.print("*tap* ");
+                            points += (i * a);
+
+                        }
+                    }
+                    cooldown = true;
+
+                    // Fancy Tappy Squeezing
+
+                } else if (input.toLowerCase().equals("squeeze") && fancyTappyCount > 0 && !fancyTappyCooldown) {
+                    System.out.println("You squeeze your Fancy Tappies until items fall out.");
+                    for (int i = 0; i < fancyTappyCount; i++) {
+                        System.out.println("A " + reward() + " fell out!");
+                    }
+                    fancyTappyCooldown = true;
+                } else if (input.toLowerCase().equals("squeeze") && fancyTappyCount > 0 && fancyTappyCooldown) {
+                    System.out.println("Your Fancy Tappies are still tired! You should let them rest for another " + (100 - tapcount2) + " taps.");
+
+                    // Fuck you Sean
+
+                } else if (input.toLowerCase().equals("kanker")) {
+                    System.out.println("Flikker op Sean.");
+                    a = 1;
+                    autoTap = false;
+                    points = 0;
+                } else {
+
+                    int tap = input.length();
+
+                    if (tap > 30) {
+                        tap = 30;
+                    }
+
+
+                    // End of tapturn calculations and prints
+
+                    spacer();
+                    System.out.println("");
+
+                    if (tappyCount > 0) {
+                        System.out.println("You milk your Tappies for an extra " + (tappyCount * 100) * tappyModifier + " points.");
+                        System.out.println("");
+                        points += (tappyCount * 100) * tappyModifier;
+                    }
+
+                    points += tap * a;
+                    if (autoTap & cooldown) {
+                        tapcount1++;
+                    }
+                    if (fancyTappyCooldown) {
+                        tapcount2++;
+                    }
+
+                    // Checking emotional support level
+
+                    if (emotionalSupport1) {
+                        System.out.println("");
+                        System.out.println(" ~~~" + points + "~~~ points and counting... Keep on tapping :)");
+                        System.out.println("");
+                        System.out.println("");
+                        spacer();
+                    } else {
+                        System.out.println("");
+                        System.out.println("You have " + points + " points. Tap to get more!");
+                        System.out.println("");
+                        spacer();
+                    }
+                }
+
+                // Checking for glitchbugs
+
+                if (points < 0) {
+                    System.out.println("Something fubar.");
+                    break;
+                }
+                // End of while loop.
+            }
+            // End of code.
+        }
+
+    }
